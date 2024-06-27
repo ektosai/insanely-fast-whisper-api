@@ -115,7 +115,7 @@ def root(
     language: str = Body(default="None"),
     batch_size: int = Body(default=64),
     timestamp_granularities: str = Body(default="chunk", enum=["segment", "word"]),
-    diarise_audio: bool = Body(
+    diarise: bool = Body(
         default=False,
     ),
     webhook: WebhookBody | None = None,
@@ -125,7 +125,7 @@ def root(
     if url.lower().startswith("http") is False:
         raise HTTPException(status_code=400, detail="Invalid URL")
 
-    if diarise_audio is True and hf_token is None:
+    if diarise is True and hf_token is None:
         raise HTTPException(status_code=500, detail="Missing Hugging Face Token")
 
     if is_async is True and webhook is None:
