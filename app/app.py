@@ -62,7 +62,6 @@ def process(
     try:
         generate_kwargs = {
             "task": task,
-            "num_speakers": None if num_speakers == None else num_speakers,
             "language": None if language == "None" else language,
         }
 
