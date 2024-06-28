@@ -59,9 +59,10 @@ def preprocess_inputs(inputs):
     return inputs, diarizer_inputs
 
 
-def diarize_audio(diarizer_inputs, diarization_pipeline):
+def diarize_audio(diarizer_inputs, num_speakers, diarization_pipeline):
     diarization = diarization_pipeline(
         {"waveform": diarizer_inputs, "sample_rate": 16000},
+        num_speakers=num_speakers,
     )
 
     segments = []
