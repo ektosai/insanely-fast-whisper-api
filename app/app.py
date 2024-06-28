@@ -78,6 +78,7 @@ def process(
             speakers_transcript = diarize(
                 hf_token,
                 url,
+                num_speakers,
                 outputs,
             )
             outputs["speakers"] = speakers_transcript
