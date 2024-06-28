@@ -9,7 +9,7 @@ from fastapi import (
     UploadFile
 )
 from fastapi.responses import JSONResponse
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 import torch
 from transformers import pipeline
 from transformers.utils import is_flash_attn_2_available
@@ -53,6 +53,7 @@ def process(
     batch_size: int,
     timestamp_granularities: str,
     diarise: bool,
+    num_speakers int,
     webhook: WebhookBody | None = None,
     task_id: str | None = None,
 ):
@@ -61,6 +62,7 @@ def process(
     try:
         generate_kwargs = {
             "task": task,
+            "num_speakers": None if num_speakers == None else num_speakers,
             "language": None if language == "None" else language,
         }
 
@@ -118,6 +120,7 @@ def root(
     diarise: bool = Body(
         default=False,
     ),
+    num_speakers: int = Field(default=None, ge=1, description="The number of speakers must be at least 1 if provided")
     webhook: WebhookBody | None = None,
     is_async: bool = Body(default=False),
     managed_task_id: str | None = Body(default=None),
@@ -148,6 +151,7 @@ def root(
                     batch_size,
                     timestamp_granularities,
                     diarise,
+                    num_speakers,
                     webhook,
                     task_id,
                 )
@@ -167,6 +171,7 @@ def root(
                 batch_size,
                 timestamp_granularities,
                 diarise,
+                num_speakers,
                 webhook,
                 task_id,
             )
@@ -193,6 +198,7 @@ def upload(
     diarise: bool = Body(
         default=False,
     ),
+    num_speakers: int = Field(default=None, ge=1, description="The number of speakers must be at least 1 if provided")
     webhook: str | None = Body(default=None),
     is_async: bool = Body(default=False),
     managed_task_id: str | None = Body(default=None),
@@ -221,6 +227,7 @@ def upload(
                     batch_size,
                     timestamp_granularities,
                     diarise,
+                    num_speakers,
                     webhook,
                     task_id,
                 )
@@ -240,6 +247,7 @@ def upload(
                 batch_size,
                 timestamp_granularities,
                 diarise,
+                num_speakers,
                 webhook,
                 task_id,
             )
