@@ -120,7 +120,7 @@ def root(
     diarise: bool = Body(
         default=False,
     ),
-    num_speakers: int = Field(default=None, ge=1, description="The number of speakers must be at least 1 if provided")
+    num_speakers: int = Field(default=None, ge=1, description="The number of speakers must be at least 1 if provided"),
     webhook: WebhookBody | None = None,
     is_async: bool = Body(default=False),
     managed_task_id: str | None = Body(default=None),
