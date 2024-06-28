@@ -52,7 +52,7 @@ def process(
     language: str,
     batch_size: int,
     timestamp_granularities: str,
-    diarise_audio: bool,
+    diarise: bool,
     webhook: WebhookBody | None = None,
     task_id: str | None = None,
 ):
@@ -72,7 +72,7 @@ def process(
             return_timestamps="word" if timestamp_granularities == "word" else True,
         )
 
-        if diarise_audio is True:
+        if diarise is True:
             speakers_transcript = diarize(
                 hf_token,
                 url,
@@ -147,7 +147,7 @@ def root(
                     language,
                     batch_size,
                     timestamp_granularities,
-                    diarise_audio,
+                    diarise,
                     webhook,
                     task_id,
                 )
@@ -166,7 +166,7 @@ def root(
                 language,
                 batch_size,
                 timestamp_granularities,
-                diarise_audio,
+                diarise,
                 webhook,
                 task_id,
             )
@@ -190,7 +190,7 @@ def upload(
     language: str = Body(default="None"),
     batch_size: int = Body(default=64),
     timestamp_granularities: str = Body(default="segment", enum=["segment", "word"]),
-    diarise_audio: bool = Body(
+    diarise: bool = Body(
         default=False,
     ),
     webhook: str | None = Body(default=None),
@@ -198,7 +198,7 @@ def upload(
     managed_task_id: str | None = Body(default=None),
 ):
     file = file.file.read()
-    if diarise_audio is True and hf_token is None:
+    if diarise is True and hf_token is None:
         raise HTTPException(status_code=500, detail="Missing Hugging Face Token")
 
     if is_async is True and webhook is None:
@@ -220,7 +220,7 @@ def upload(
                     language,
                     batch_size,
                     timestamp_granularities,
-                    diarise_audio,
+                    diarise,
                     webhook,
                     task_id,
                 )
@@ -239,7 +239,7 @@ def upload(
                 language,
                 batch_size,
                 timestamp_granularities,
-                diarise_audio,
+                diarise,
                 webhook,
                 task_id,
             )
