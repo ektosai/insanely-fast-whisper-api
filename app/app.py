@@ -69,6 +69,7 @@ def process(
             url,
             chunk_length_s=30,
             batch_size=batch_size,
+            return_language=True,
             generate_kwargs=generate_kwargs,
             return_timestamps="word" if timestamp_granularities == "word" else True,
         )
